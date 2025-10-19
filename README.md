@@ -1,39 +1,32 @@
 ## Hi there 👋
 
-# Instalar bibliotecas
+# CÓDIGO-BASE
 !pip install pandas matplotlib seaborn
-
-# Importar tudo o que iremos usar
 
 import pandas as pd
 import numpy as py
 import plotly.express as px
 
-# Importar Arquivo
 from google.colab import drive
 drive.mount('/content/drive')
 
-# Caminho do arquivo
 caminho = '/content/drive/MyDrive/AI_Tools_List.csv'
 
-# Carregar
 df = pd.read_csv(caminho, encoding='latin1')
 
-# Padronizar nomes de colunas pra facilitação de acesso ao conteúdo
 df.columns = df.columns.str.strip().str.replace(' ', '_').str.replace('[^a-zA-Z0-9_]', '')
 
-# Checagem dos nomes de todas as colunas
 print(df.columns.tolist())
 
 df.columns
 
-#GRÁFICO DE POPULARIDADE
-# Se preferível, converter ano e popularidade para string e tratá-los como categorias com astype(str)
+#Gráfico de Pontuação de popularidade (1–10) – Pontuação relativa de quão popular é a ferramenta
+
 df['Release_Year'] = df['Release_Year'].astype(str)
 
 fig = px.parallel_categories(
     df,
-    dimensions=['AI_Name', 'Developer/Company', 'AI_Type', 'Main_Use_Case', 'Release_Year'], #aqui escolher quais colunas quer que ele pegue pra formar os gráficos
+    dimensions=['AI_Name', 'Developer/Company', 'AI_Type', 'Main_Use_Case', 'Release_Year'],
     color='Popularity_Score_(1-10)',
     color_continuous_scale=px.colors.sequential.Inferno,
     labels={
@@ -63,7 +56,7 @@ fig = px.bar(df,
                  color_continuous_scale=px.colors.sequential.Inferno,
 )
 
-# Layout refinado
+
 fig.update_layout(
     yaxis=dict(categoryorder='total ascending'),
     margin=dict(t=60, l=100, r=40, b=40),
@@ -85,12 +78,9 @@ plt.ylabel("IA")
 plt.tight_layout()
 plt.show()
 
-
-# Contar categorias
 categorias = df['Main_Use_Case'].value_counts().reset_index()
 categorias.columns = ['Categoria', 'Quantidade']
 
-# Gráfico interativo
 fig = px.pie(categorias, names='Categoria', values='Quantidade',
              title='Distribuição das Casos de Uso Principais das IAs',
              color_discrete_sequence=px.colors.sequential.RdBu)
@@ -104,7 +94,6 @@ fig.show()
 # Agrupar por ano e tipo
 crescimento = df.groupby(['Release_Year', 'AI_Type']).size().reset_index(name='Quantidade')
 
-# Gráfico interativo com paleta Viridis
 fig = px.bar(crescimento,
              x='Release_Year',
              y='Quantidade',
@@ -113,7 +102,6 @@ fig = px.bar(crescimento,
              labels={'Release_Year': 'Ano de Lançamento', 'Quantidade': 'Quantidade de Ferramentas', 'AI_Type': 'Tipo de IA'},
              color_discrete_sequence=px.colors.sequential.Viridis)
 
-# Layout refinado
 fig.update_layout(
     xaxis=dict(type='category'),
     yaxis=dict(title='Quantidade de Ferramentas'),

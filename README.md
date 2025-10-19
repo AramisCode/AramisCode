@@ -20,7 +20,7 @@ print(df.columns.tolist())
 
 df.columns
 
-#Gráfico de Pontuação de popularidade (1–10) – Pontuação relativa de quão popular é a ferramenta
+# Gráfico de Pontuação de popularidade (1–10) – Pontuação relativa de quão popular é a ferramenta
 
 df['Release_Year'] = df['Release_Year'].astype(str)
 
@@ -66,7 +66,7 @@ fig.update_layout(
 fig.show()
 
 
-#GRÁFICO DE VALOR ESTIMADO EM BILHÕES (lucros estimados, impacto no mercado mundial)
+# GRÁFICO DE VALOR ESTIMADO EM BILHÕES (lucros estimados, impacto no mercado mundial)
 
 df_valor = df.sort_values(by='Estimated_Valuation_Billion_USD')
 
@@ -90,8 +90,8 @@ fig.show()
 
 
 
-#GRÁFICO DE CRESCIMENTO DE TIPOS DE FERRAMENTAS DE IA POR ANO
-# Agrupar por ano e tipo
+# GRÁFICO DE CRESCIMENTO DE TIPOS DE FERRAMENTAS DE IA POR ANO
+
 crescimento = df.groupby(['Release_Year', 'AI_Type']).size().reset_index(name='Quantidade')
 
 fig = px.bar(crescimento,
